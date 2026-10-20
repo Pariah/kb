@@ -26,6 +26,10 @@
 	--job-rage: #f05158;
 	--job-slot: #8a8580;
 
+	/* Blizzard class colors, only on the picked-character dot. */
+	--class-warlock: #8788ee;
+	--class-warrior: #c69b6d;
+
 	--f-display: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
 	--f-mono: "Martian Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
 
