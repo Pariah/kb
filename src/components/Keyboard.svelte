@@ -114,6 +114,12 @@
 		return () => window.removeEventListener("hashchange", readHash);
 	});
 
+	// The static bindings tables below the board follow the picked character.
+	$effect(() => {
+		for (const el of document.querySelectorAll<HTMLElement>("[data-bindings]"))
+			el.hidden = el.dataset.bindings !== char.slug;
+	});
+
 	function pickCharacter(c: ResolvedCharacter) {
 		slug = c.slug;
 		stance = firstStance(c);
@@ -142,8 +148,8 @@
 	<nav class="chars" aria-label="Character">
 		{#each characters as c (c.slug)}
 			<button class="char" aria-pressed={c.slug === char.slug} onclick={() => pickCharacter(c)}>
-				<b>{c.name.toLowerCase()}</b>
-				<span class="micro">{[c.race, c.class].filter(Boolean).join(" ")}</span>
+				<b>{c.class}</b>
+				{#if c.race}<span class="micro">{c.race}</span>{/if}
 			</button>
 		{/each}
 	</nav>
@@ -198,13 +204,13 @@
 							<span class="nm">{v.name}</span>
 						</button>
 					{:else if cell.kind === "move"}
-						<div class="key ghost" style:--pr={cell.pr} style:--pc={cell.pc} aria-hidden="true">
+						<div class="key ghost blocked" style:--pr={cell.pr} style:--pc={cell.pc} aria-hidden="true">
 							<span class="lg">{cell.key}</span>
 							<span class="ic"></span>
 							<span class="nm">{cell.name}</span>
 						</div>
 					{:else if cell.kind === "wide"}
-						<div class="key ghost wide" style:--w={cell.w} aria-hidden="true">
+						<div class="key ghost wide blocked" style:--w={cell.w} aria-hidden="true">
 							<span class="lg">{cell.label}</span>
 						</div>
 					{:else}
@@ -403,7 +409,6 @@
 		display: block;
 		width: 100%;
 		height: 100%;
-		filter: grayscale(1);
 	}
 	.nm {
 		display: flex;
@@ -461,6 +466,10 @@
 	}
 	.key.ghost .nm {
 		font-weight: 400;
+	}
+	/* Keys the layout never binds (Tab, Caps, movement): faint hatching. */
+	.key.blocked {
+		background: repeating-linear-gradient(-45deg, transparent 0 7px, var(--n-2) 7px 8px);
 	}
 	.wide {
 		width: calc(var(--w) * var(--u) - var(--gap));
