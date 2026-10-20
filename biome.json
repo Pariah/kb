@@ -12,6 +12,7 @@
 			"**",
 			"!dist",
 			"!.astro",
+			"!.cloudflare",
 			"!node_modules",
 			"!**/*.astro",
 			"!**/*.svelte",

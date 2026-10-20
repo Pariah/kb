@@ -13,9 +13,11 @@
 		"check:fix": "biome check --write && prettier --write \"**/*.{astro,svelte}\"",
 		"format": "biome format --write && prettier --write \"**/*.{astro,svelte}\"",
 		"lint": "biome lint",
-		"typecheck": "astro check"
+		"typecheck": "astro check",
+		"deploy": "astro build && cf deploy --prebuilt"
 	},
 	"dependencies": {
+		"@astrojs/cloudflare": "15.0.0-beta.1",
 		"@astrojs/svelte": "^9.1.0",
 		"@fontsource-variable/archivo": "^5.3.0",
 		"@fontsource-variable/martian-mono": "^5.3.0",
@@ -28,6 +30,7 @@
 		"@astrojs/check": "^0.9.11",
 		"@biomejs/biome": "^2.5.15",
 		"@types/bun": "^1.4.3",
+		"cf": "^1.0.0-beta.20",
 		"prettier": "^3.9.10",
 		"prettier-plugin-astro": "^1.1.1",
 		"prettier-plugin-svelte": "^4.1.1",
