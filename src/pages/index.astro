@@ -1,41 +1,39 @@
 ---
+import Bindings from "../components/Bindings.astro";
+import Keyboard from "../components/Keyboard.svelte";
+import Macros from "../components/Macros.astro";
 import Base from "../layouts/Base.astro";
 import { loadData } from "../lib/data";
 
-// Placeholder until the keyboard lands. Loading the data here means an invalid
-// YAML file fails the build even before the island exists.
-const { characters } = loadData();
+const { characters, macros } = loadData();
+const bodies = Object.fromEntries(macros.map((m) => [m.name, m.body]));
 ---
 
 <Base title="kb" description="Keybinds and macros for WoW Forever.">
-	<header>
-		<p class="mark">kb</p>
-		<ul>
-			{characters.map((c) => <li>{c.name.toLowerCase()}</li>)}
-		</ul>
-	</header>
+	<main>
+		<Keyboard client:load characters={characters} macros={bodies} />
+		<Bindings characters={characters} />
+		<Macros characters={characters} macros={macros} />
+	</main>
 </Base>
 
+<script>
+	import "../scripts/copy";
+</script>
+
 <style>
-	header {
-		display: flex;
-		gap: 32px;
-		align-items: baseline;
-		padding-block: 24px;
+	main {
+		max-width: var(--page-max);
+		margin-inline: auto;
+		padding-bottom: 96px;
 	}
-	.mark {
-		margin: 0;
-		font: 200 var(--t-h2) / 1 var(--f-display);
+	main :global(section) {
+		margin-top: 72px;
+	}
+	main :global(section > h2) {
+		margin: 0 0 6px;
+		font: 200 var(--t-h2) / 1.1 var(--f-display);
 		font-stretch: 125%;
 		color: var(--n-8);
-	}
-	ul {
-		display: flex;
-		gap: 28px;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		font: 300 var(--t-h3) / 1 var(--f-display);
-		font-stretch: 112%;
 	}
 </style>

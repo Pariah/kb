@@ -1,0 +1,167 @@
+---
+// Full bindings, one table per character. For characters with stances the
+// number row gets its own table, one column per stance.
+import type { ResolvedCharacter, ResolvedSlot } from "../lib/data";
+import { canBind, KEYS, MODIFIER_LABEL, MODIFIERS, type Modifier, PAGED_KEYS } from "../lib/keys";
+import { isPaged, slotAt } from "../lib/view";
+
+interface Props {
+	characters: ResolvedCharacter[];
+}
+
+const { characters } = Astro.props;
+
+interface Cell {
+	text: string;
+	job?: string;
+	open?: boolean;
+	blank?: boolean;
+}
+
+/** A slot as table text. Stance slots list every stance's ability in order. */
+function cell(c: ResolvedCharacter, slot: ResolvedSlot | undefined): Cell {
+	if (!slot) return { text: "Open", open: true };
+	const text = slot.stances
+		? c.stances.map((s) => slot.stances?.[s.id]?.ability ?? "Open").join(" / ")
+		: (slot.binding?.ability ?? "Open");
+	return { text, job: slot.job?.id };
+}
+
+const modCell = (c: ResolvedCharacter, key: string, mod: Modifier): Cell =>
+	canBind(key, mod) ? cell(c, slotAt(c, key, mod)) : { text: "", blank: true };
+
+const stanceCell = (c: ResolvedCharacter, key: string, stance: string): Cell => {
+	const slot = slotAt(c, key, "bare");
+	const b = slot?.stances?.[stance] ?? slot?.binding;
+	return b ? { text: b.ability, job: slot?.job?.id } : { text: "Open", open: true };
+};
+
+// Number row first only when it isn't split out by stance; ` closes the table.
+const ORDER = [...KEYS.filter((k) => k !== "`"), "`"];
+---
+
+<section id="bindings">
+	<h2>bindings</h2>
+	{
+		characters.map((c) => {
+			const paged = PAGED_KEYS.filter((k) => isPaged(c, k));
+			const rest = ORDER.filter((k) => !isPaged(c, k));
+			const pagedMods = MODIFIERS.filter((m) => m !== "bare" && PAGED_KEYS.some((k) => canBind(k, m)));
+			return (
+				<div class="char">
+					<h3>{c.name.toLowerCase()}</h3>
+					{paged.length > 0 && (
+						<div class="tbl">
+							<table>
+								<thead>
+									<tr>
+										<th>Key</th>
+										{c.stances.map((s) => (
+											<th>{s.label}</th>
+										))}
+										{pagedMods.map((m) => (
+											<th>{MODIFIER_LABEL[m]}</th>
+										))}
+									</tr>
+								</thead>
+								<tbody>
+									{paged.map((k) => (
+										<tr>
+											<td class="k">{k}</td>
+											{[...c.stances.map((s) => stanceCell(c, k, s.id)), ...pagedMods.map((m) => modCell(c, k, m))].map(
+												(x) => (
+													<td class:list={{ open: x.open }}>
+														{!x.blank && <span class="j" style={x.job ? `--c: var(--job-${x.job})` : undefined} />}
+														{x.text}
+													</td>
+												),
+											)}
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+					)}
+					<div class="tbl">
+						<table>
+							<thead>
+								<tr>
+									<th>Key</th>
+									{MODIFIERS.map((m) => (
+										<th>{MODIFIER_LABEL[m]}</th>
+									))}
+								</tr>
+							</thead>
+							<tbody>
+								{rest.map((k) => (
+									<tr>
+										<td class="k">{k}</td>
+										{MODIFIERS.map((m) => modCell(c, k, m)).map((x) => (
+											<td class:list={{ open: x.open }}>
+												{!x.blank && <span class="j" style={x.job ? `--c: var(--job-${x.job})` : undefined} />}
+												{x.text}
+											</td>
+										))}
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			);
+		})
+	}
+</section>
+
+<style>
+	.char {
+		display: grid;
+		gap: 20px;
+		margin-top: 32px;
+	}
+	h3 {
+		margin: 0;
+		padding-bottom: 6px;
+		border-bottom: 1px solid var(--n-3);
+		font: 300 var(--t-h3) / 1 var(--f-display);
+		font-stretch: 112.5%;
+		color: var(--n-8);
+	}
+	.tbl {
+		overflow-x: auto;
+	}
+	table {
+		width: 100%;
+		min-width: 560px;
+		border-collapse: collapse;
+	}
+	th,
+	td {
+		padding: 9px 12px 9px 0;
+		border-bottom: 1px solid var(--n-2);
+		text-align: left;
+		vertical-align: top;
+	}
+	th {
+		font: 400 var(--t-micro) / 1 var(--f-mono);
+		font-stretch: 75%;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--n-5);
+	}
+	td.k {
+		width: 60px;
+		font: 500 12px / 1.4 var(--f-mono);
+		color: var(--n-8);
+	}
+	.j {
+		display: inline-block;
+		width: 8px;
+		height: 8px;
+		margin-right: 8px;
+		background: var(--c, transparent);
+	}
+	td.open {
+		color: var(--n-4);
+	}
+</style>
