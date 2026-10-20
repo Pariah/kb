@@ -1,6 +1,7 @@
 @import "@fontsource-variable/archivo/standard.css";
 @import "@fontsource-variable/martian-mono/standard.css";
 @import "./tokens.css";
+@import "./macro.css";
 
 *,
 *::before,
@@ -32,4 +33,18 @@ img {
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	color: var(--n-5);
+}
+
+.micro {
+	font: 400 var(--t-micro) / 1.2 var(--f-mono);
+	font-stretch: 75%;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+/* Clears the fixed modifier/stance bar on phones. */
+@media (max-width: 720px) {
+	body {
+		padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+	}
 }

@@ -1,0 +1,65 @@
+/* Macro box, shared by the inspector (Svelte) and the library (Astro).
+   The box itself is the copy control; src/scripts/copy.ts sets data-copied. */
+.macro {
+	display: grid;
+	gap: 8px;
+	min-width: 0;
+}
+
+.macro-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}
+
+.macro-name {
+	font: 500 var(--t-body) / 1.2 var(--f-mono);
+	font-stretch: 87.5%;
+	color: var(--n-8);
+}
+
+.macro-count {
+	font: 400 var(--t-micro) / 1.2 var(--f-mono);
+	font-stretch: 75%;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	font-variant-numeric: tabular-nums;
+	color: var(--n-5);
+	text-align: right;
+}
+
+.macro-count > :not(.n),
+.macro[data-copied] .macro-count > .n {
+	display: none;
+}
+.macro[data-copied="ok"] .macro-count > .ok,
+.macro[data-copied="no"] .macro-count > .no {
+	display: inline;
+	color: var(--n-8);
+}
+
+.macro-body {
+	margin: 0;
+	background: var(--n-1);
+	border: 1px solid var(--n-2);
+	border-radius: var(--radius);
+	padding: 12px 14px;
+	font: 400 12px / 1.65 var(--f-mono);
+	color: var(--n-7);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	cursor: pointer;
+}
+.macro-body:hover {
+	border-color: var(--n-4);
+}
+.macro[data-copied="ok"] .macro-body {
+	border-color: var(--n-7);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.macro-body {
+		transition: border-color 0.12s;
+	}
+}

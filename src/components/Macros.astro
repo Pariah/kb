@@ -1,0 +1,111 @@
+---
+// Macro library: tab (general first, then class tabs in character order), then
+// prefix. Each card is a static MacroBox plus the keys it's bound to, if any.
+import type { Macro, ResolvedCharacter } from "../lib/data";
+import { macroKeys } from "../lib/view";
+import MacroBox from "./MacroBox.svelte";
+
+interface Props {
+	characters: ResolvedCharacter[];
+	macros: Macro[];
+}
+
+const { characters, macros } = Astro.props;
+
+const tabs = ["general", ...new Set(characters.map((c) => c.class))].filter((t) => macros.some((m) => m.tab === t));
+const prefixOf = (m: Macro) => m.name.split(":")[0];
+
+// Name the character only once more than one has macros on its keys.
+const binders = characters.filter((c) => macros.some((m) => macroKeys(c, m.name).length));
+const keysFor = (m: Macro) =>
+	binders.flatMap((c) =>
+		macroKeys(c, m.name).map((k) => (binders.length > 1 ? `${c.name} · ${k}` : k)),
+	);
+
+function groups(tab: string) {
+	const byPrefix = new Map<string, Macro[]>();
+	for (const m of macros
+		.filter((x) => x.tab === tab)
+		.sort((a, b) => a.name.localeCompare(b.name))) {
+		const list = byPrefix.get(prefixOf(m)) ?? [];
+		list.push(m);
+		byPrefix.set(prefixOf(m), list);
+	}
+	return [...byPrefix];
+}
+---
+
+<section id="macros">
+	<h2>macros</h2>
+	<p class="label sub">Click a macro to copy it.</p>
+	{
+		tabs.map((tab) => (
+			<div class="tab">
+				<h3 class="label">{tab}</h3>
+				<div class="lib">
+					{groups(tab).map(([prefix, list]) => (
+						<>
+							<h4>{prefix}:</h4>
+							{list.map((m) => {
+								const keys = keysFor(m);
+								return (
+									<div class="card">
+										<MacroBox name={m.name} body={m.body} />
+										{keys.length > 0 && (
+											<ul class="micro">
+												{keys.map((k) => (
+													<li>{k}</li>
+												))}
+											</ul>
+										)}
+									</div>
+								);
+							})}
+						</>
+					))}
+				</div>
+			</div>
+		))
+	}
+</section>
+
+<style>
+	.sub {
+		margin: 0 0 8px;
+	}
+	.tab {
+		margin-top: 40px;
+	}
+	h3 {
+		margin: 0 0 4px;
+		color: var(--n-6);
+	}
+	.lib {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+		gap: 16px;
+	}
+	h4 {
+		grid-column: 1 / -1;
+		margin: 16px 0 0;
+		padding-bottom: 6px;
+		border-bottom: 1px solid var(--n-3);
+		font: 300 var(--t-h3) / 1 var(--f-display);
+		font-stretch: 112.5%;
+		color: var(--n-8);
+	}
+	.card {
+		display: grid;
+		gap: 8px;
+		align-content: start;
+		min-width: 0;
+	}
+	ul {
+		display: grid;
+		gap: 2px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		color: var(--n-5);
+	}
+</style>
