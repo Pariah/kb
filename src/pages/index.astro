@@ -1,0 +1,41 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadData } from "../lib/data";
+
+// Placeholder until the keyboard lands. Loading the data here means an invalid
+// YAML file fails the build even before the island exists.
+const { characters } = loadData();
+---
+
+<Base title="kb" description="Keybinds and macros for WoW Forever.">
+	<header>
+		<p class="mark">kb</p>
+		<ul>
+			{characters.map((c) => <li>{c.name.toLowerCase()}</li>)}
+		</ul>
+	</header>
+</Base>
+
+<style>
+	header {
+		display: flex;
+		gap: 32px;
+		align-items: baseline;
+		padding-block: 24px;
+	}
+	.mark {
+		margin: 0;
+		font: 200 var(--t-h2) / 1 var(--f-display);
+		font-stretch: 125%;
+		color: var(--n-8);
+	}
+	ul {
+		display: flex;
+		gap: 28px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font: 300 var(--t-h3) / 1 var(--f-display);
+		font-stretch: 112%;
+	}
+</style>

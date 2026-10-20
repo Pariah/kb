@@ -1,0 +1,52 @@
+/* Design tokens. Source of truth: docs/design.md. Changes need David's approval. */
+:root {
+	color-scheme: dark;
+
+	/* Neutral ramp, warm-biased (oklch hue 70). */
+	--n-0: #0b0a08;
+	--n-1: #141211;
+	--n-2: #1d1b19;
+	--n-3: #302d2b;
+	--n-4: #504c49;
+	--n-5: #7d7a75;
+	--n-6: #aeaaa5;
+	--n-7: #dad7d3;
+	--n-8: #f5f3f1;
+
+	/* Column jobs: the only color in the system. One per id in src/data/jobs.yaml. */
+	--job-stance: #eee7d9;
+	--job-interrupt: #fb8d34;
+	--job-engage: #f2cf3b;
+	--job-defense: #56acf0;
+	--job-cc: #b48df4;
+	--job-burst: #f45fb0;
+	--job-heal: #56d57b;
+	--job-potion: #57d4d4;
+	--job-racial: #cbb394;
+	--job-rage: #f05158;
+	--job-slot: #8a8580;
+
+	--f-display: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+	--f-mono: "Martian Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+
+	--t-micro: 10px;
+	--t-label: 11px;
+	--t-body: 14px;
+	--t-h3: 18px;
+	--t-h2: 26px;
+	--t-h1: 40px;
+
+	--u: 96px;
+	--gap: 6px;
+	--cap: calc(var(--u) - var(--gap));
+	--radius: 3px;
+	--radius-board: 4px;
+	--page-max: 1200px;
+}
+
+@media (max-width: 720px) {
+	:root {
+		--gap: 5px;
+		--t-h1: 30px;
+	}
+}
