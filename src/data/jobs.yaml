@@ -1,0 +1,66 @@
+# Column jobs: the layout grammar every character shares.
+# Each job owns key slots (key -> modifiers) and one color token (--job-<id>).
+# A binding's job comes from where it sits, never from the binding itself.
+# label shows in the inspector. classLabel overrides it for one class.
+# Slots with no job (number row bare, bare Q E R, T, Y, H) carry no color.
+
+stance:
+  label: Stances
+  classLabel:
+    warlock: Pet control
+  slots:
+    R: [shift, ctrl, alt]
+
+interrupt:
+  label: Interrupt, then taunts
+  slots:
+    F: [bare, shift, ctrl]
+
+engage:
+  label: Engage and movement
+  slots:
+    G: [bare, shift, ctrl]
+
+defense:
+  label: Shouts and defensives
+  slots:
+    V: [bare, shift, ctrl]
+
+cc:
+  label: Crowd control
+  slots:
+    X: [bare, shift, ctrl]
+
+burst:
+  label: On-use burst
+  slots:
+    Z: [bare, shift, ctrl]
+
+heal:
+  label: Healing consumables
+  slots:
+    Q: [shift, ctrl]
+
+potion:
+  label: Situational potions
+  slots:
+    "`": [bare, shift, ctrl]
+
+racial:
+  label: Racials
+  slots:
+    C: [shift, ctrl]
+
+rage:
+  label: Rage generation, fear break
+  classLabel:
+    warlock: Mana generation
+  slots:
+    B: [bare, shift, ctrl]
+
+slot:
+  label: Equipped on-use slots
+  slots:
+    "3": [shift]
+    "4": [shift]
+    "5": [shift]

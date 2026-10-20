@@ -1,0 +1,344 @@
+# Macro library. Keys are the in-game macro names (Prefix: Name, max 16 chars).
+# tab: general or a class slug. body: the macro text, max 255 chars.
+# note: context for editing; never rendered on the site.
+
+"Atk: Melee":
+  tab: general
+  note: Grabs the nearest enemy if you have nothing hostile targeted.
+  body: |-
+    #showtooltip Attack
+    /targetenemy [noharm][dead]
+    /startattack [harm,nodead]
+"Atk: Ranged":
+  tab: general
+  body: |-
+    #showtooltip
+    /use [worn:thrown]Throw;[worn:bow/crossbow/gun/wand]Shoot
+"CD: Recklessness":
+  tab: general
+  body: |-
+    #showtooltip Recklessness
+    /startattack [harm,nodead]
+    /use [noform:3]Berserker Stance;Recklessness
+"CD: Retaliation":
+  tab: general
+  body: |-
+    #showtooltip Retaliation
+    /use [noform:1]Battle Stance;Retaliation
+"Equip: 2H":
+  tab: general
+  body: /equipset 2H
+"Equip: SnB":
+  tab: general
+  body: /equipset SNB
+"Item: Belt":
+  tab: general
+  body: |-
+    #showtooltip 6
+    /use 6
+"Item: Cloak":
+  tab: general
+  body: |-
+    #showtooltip 15
+    /use 15
+"Item: Gloves":
+  tab: general
+  body: |-
+    #showtooltip 10
+    /use 10
+"Item: Trinkets":
+  tab: general
+  body: |-
+    #showtooltip
+    /use 13
+    /use 14
+"Mark: Cross":
+  tab: general
+  body: /tm [harm,nodead]7
+"Mark: Skull":
+  tab: general
+  body: /tm [harm,nodead]8
+"Pot: Bandage":
+  tab: general
+  note: Recently Bandaged blocks the second use, so only the best one you own fires. Self-casts when your target is hostile.
+  body: |-
+    #showtooltip
+    /use Heavy Runecloth Bandage
+    /use Runecloth Bandage
+    /use Heavy Mageweave Bandage
+    /use Mageweave Bandage
+    /use Heavy Silk Bandage
+    /use Silk Bandage
+    /use Heavy Wool Bandage
+    /use Wool Bandage
+    /use Heavy Linen Bandage
+    /use Linen Bandage
+"Pot: Free Action":
+  tab: general
+  body: |-
+    #showtooltip
+    /use [group]Free Action Potion
+"Pot: Healing":
+  tab: general
+  note: Tries best to worst. Potions share a cooldown, so only the first one you own fires.
+  body: |-
+    #showtooltip
+    /use Major Healing Potion
+    /use Superior Healing Potion
+    /use Greater Healing Potion
+    /use Healing Potion
+    /use Lesser Healing Potion
+    /use Minor Healing Potion
+"Pot: Healthstone":
+  tab: general
+  body: |-
+    #showtooltip
+    /use Major Healthstone
+    /use Greater Healthstone
+    /use Healthstone
+    /use Lesser Healthstone
+    /use Minor Healthstone
+"Pot: Rage":
+  tab: general
+  note: Group and combat only, so it never burns solo.
+  body: |-
+    #showtooltip
+    /use [group,combat]Mighty Rage Potion
+    /use [group,combat]Great Rage Potion
+    /use [group,combat]Rage Potion
+"Pot: Stoneshield":
+  tab: general
+  body: |-
+    #showtooltip
+    /use [group,combat]Greater Stoneshield Potion
+    /use [group,combat]Lesser Stoneshield Potion
+"Race: Alliance 1":
+  tab: general
+  note: "Every race has two on-use racials at most: one on each key."
+  body: |-
+    #showtooltip
+    /use [known:Will to Survive]Will to Survive;[known:Stoneform]Stoneform;[known:Elune's Light]Elune's Light;[known:Eureka!]Eureka!;[known:Read Ley Line]Read Ley Line;[known:Read Leyline]Read Leyline
+"Race: Alliance 2":
+  tab: general
+  body: |-
+    #showtooltip
+    /use [known:Perception]Perception;[known:Find Treasure]Find Treasure;[known:Shadowmeld]Shadowmeld;[known:Escape Artist]Escape Artist;[known:Walk on Air]Walk on Air
+"Race: Horde 1":
+  tab: general
+  note: Tauren only have War Stomp.
+  body: |-
+    #showtooltip
+    /use [known:Blood Fury]Blood Fury;[known:Will of the Forsaken]Will of the Forsaken;[known:War Stomp]War Stomp;[known:Berserking]Berserking;[known:Skysight]Skysight
+"Race: Horde 2":
+  tab: general
+  body: |-
+    #showtooltip
+    /use [known:Shatter Curse]Shatter Curse;[known:Cannibalize]Cannibalize;[known:Rapid Regeneration]Rapid Regeneration;[known:Walk on Air]Walk on Air
+"Sys: Audio":
+  tab: general
+  note: Cycles the sound output device and prints its name.
+  body: /run local c="Sound_OutputDriverIndex" local v=(tonumber(GetCVar(c))+1)%Sound_GameSystem_GetNumOutputDrivers() SetCVar(c,v) print("Audio:",Sound_GameSystem_GetOutputDriverNameByIndex(v)) Sound_GameSystem_RestartSoundSystem()
+"Sys: Clear Bars":
+  tab: general
+  note: Wipes every action slot, this macro included. For fresh characters.
+  body: /run for i=1,180 do PickupAction(i) ClearCursor() end
+"Sys: Spec Swap":
+  tab: general
+  note: Dual spec, level 40. Assign each equipment set to its spec in the equipment manager to swap gear with it.
+  body: /run local s=C_SpecializationInfo s.SetActiveSpecGroup(3-s.GetActiveSpecGroup())
+"Sys: Sync Off":
+  tab: general
+  body: /run for _,c in ipairs({"synchronizeBindings","synchronizeChatFrames","synchronizeConfig"}) do SetCVar(c,0) end print("Sync off")
+"Sys: Sync On":
+  tab: general
+  note: "`synchronizeMacros` and `synchronizeSettings` don't exist on this client."
+  body: /run for _,c in ipairs({"synchronizeBindings","synchronizeChatFrames","synchronizeConfig"}) do SetCVar(c,1) end print("Sync on")
+"Atk: Cleave":
+  tab: warrior
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use Cleave
+"Atk: Execute":
+  tab: warrior
+  body: |-
+    #showtooltip Execute
+    /startattack [harm,nodead]
+    /use [form:2]Battle Stance;Execute
+"Atk: Hamstring":
+  tab: warrior
+  body: |-
+    #showtooltip Hamstring
+    /startattack [harm,nodead]
+    /use [form:2]Battle Stance;Hamstring
+"Atk: Heroic":
+  tab: warrior
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use Heroic Strike
+"Atk: Overpower":
+  tab: warrior
+  body: |-
+    #showtooltip Overpower
+    /startattack [harm,nodead]
+    /use [noform:1]Battle Stance;Overpower
+"Atk: Rend":
+  tab: warrior
+  body: |-
+    #showtooltip Rend
+    /startattack [harm,nodead]
+    /use [combat]Elune's Light
+    /use [form:3]Battle Stance;Rend
+"Atk: Slam":
+  tab: warrior
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use Slam
+"Atk: Spearing":
+  tab: warrior
+  body: |-
+    #showtooltip Spearing Strike
+    /startattack [harm,nodead]
+    /use [noform:1]Battle Stance;Spearing Strike
+"Atk: Strike":
+  tab: warrior
+  note: "Fires whichever 31-point talent you have: one key in both specs."
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use [known:Shield Slam]Shield Slam;[known:Mortal Strike]Mortal Strike;[known:Bloodthirst]Bloodthirst
+"Atk: Victory":
+  tab: warrior
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use Victory Rush
+"Atk: Whirlwind":
+  tab: warrior
+  body: |-
+    #showtooltip Whirlwind
+    /startattack [harm,nodead]
+    /use [noform:3]Berserker Stance;Whirlwind
+"CD: Burst":
+  tab: warrior
+  note: Trinkets and racials (off the GCD) first, then Death Wish.
+  body: |-
+    #showtooltip Death Wish
+    /startattack [harm,nodead]
+    /use 13
+    /use 14
+    /use [known:Blood Fury]Blood Fury;[known:Berserking]Berserking;[known:Elune's Light]Elune's Light;[known:Eureka!]Eureka!
+    /use Death Wish
+"CD: Talent":
+  tab: warrior
+  note: First known wins if a build ever has two.
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use [known:Last Stand]Last Stand;[known:Sweeping Strikes,noform:1]Battle Stance;[known:Sweeping Strikes]Sweeping Strikes;[known:Death Wish]Death Wish
+"Form: Battle":
+  tab: warrior
+  body: |-
+    #showtooltip Battle Stance
+    /use [noform:1]Battle Stance
+"Form: Berserker":
+  tab: warrior
+  body: |-
+    #showtooltip Berserker Stance
+    /use [noform:3]Berserker Stance
+"Form: Defensive":
+  tab: warrior
+  body: |-
+    #showtooltip Defensive Stance
+    /use [noform:2]Defensive Stance
+"Tank: Block":
+  tab: warrior
+  body: |-
+    #showtooltip Shield Block
+    /startattack [harm,nodead]
+    /equipset [noworn:Shields]SNB
+    /use [noform:2]Defensive Stance;[worn:Shields]Shield Block
+"Tank: Clap":
+  tab: warrior
+  note: Works in Defensive in Forever.
+  body: |-
+    #showtooltip Thunder Clap
+    /startattack [harm,nodead]
+    /use [form:3]Battle Stance;Thunder Clap
+"Tank: Concuss":
+  tab: warrior
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use Concussion Blow
+"Tank: Demo":
+  tab: warrior
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use Demoralizing Shout
+"Tank: Disarm":
+  tab: warrior
+  body: |-
+    #showtooltip Disarm
+    /startattack [harm,nodead]
+    /use [noform:2]Defensive Stance;Disarm
+"Tank: Mock":
+  tab: warrior
+  body: |-
+    #showtooltip Mocking Blow
+    /startattack [harm,nodead]
+    /use [noform:1]Battle Stance;Mocking Blow
+"Tank: Revenge":
+  tab: warrior
+  body: |-
+    #showtooltip Revenge
+    /startattack [harm,nodead]
+    /use [noform:2]Defensive Stance;Revenge
+"Tank: Slam":
+  tab: warrior
+  body: |-
+    #showtooltip Shield Slam
+    /startattack [harm,nodead]
+    /equipset [noworn:Shields]SNB
+    /use [worn:Shields]Shield Slam
+"Tank: Sunder":
+  tab: warrior
+  body: |-
+    #showtooltip Sunder Armor
+    /startattack [harm,nodead]
+    /use [combat]Elune's Light
+    /use Sunder Armor
+"Tank: Taunt":
+  tab: warrior
+  body: |-
+    #showtooltip Taunt
+    /use [noform:2]Defensive Stance;Taunt
+"Tank: Wall":
+  tab: warrior
+  body: |-
+    #showtooltip Shield Wall
+    /equipset [noworn:Shields]SNB
+    /use [noform:2]Defensive Stance;[worn:Shields]Shield Wall
+"Util: Charge":
+  tab: warrior
+  note: "Out of combat with a shield and Vanguard: Charge from Defensive. Out of combat otherwise: Battle Stance, then Charge. In combat without a shield: Berserker Stance, then Intercept. With a shield it does nothing in combat (stays in Defensive)."
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /use [nocombat,worn:Shields,known:Vanguard,form:2]Charge;[nocombat,noform:1]Battle Stance;[nocombat]Charge;[noworn:Shields,noform:3]Berserker Stance;[noworn:Shields]Intercept
+"Util: Interrupt":
+  tab: warrior
+  note: "Shield on: Shield Bash (leaves Berserker first if needed). No shield, no Pummel yet: equips SNB, then Shield Bash. No shield, Pummel known: Berserker Stance, then Pummel."
+  body: |-
+    #showtooltip
+    /startattack [harm,nodead]
+    /equipset [noworn:Shields,noknown:Pummel]SNB
+    /use [form:3,known:Pummel]Pummel;[form:3]Battle Stance;[worn:Shields]Shield Bash;[known:Pummel]Berserker Stance
+"Util: Zerk Rage":
+  tab: warrior
+  body: |-
+    #showtooltip Berserker Rage
+    /use [noform:3]Berserker Stance;Berserker Rage
