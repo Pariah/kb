@@ -7,37 +7,10 @@ import { join } from "node:path";
 import { parse } from "yaml";
 import { z } from "zod";
 
-export const MODIFIERS = ["bare", "shift", "ctrl", "alt"] as const;
-export type Modifier = (typeof MODIFIERS)[number];
+import { ALT_KEYS, KEYS, type Key, MODIFIERS, type Modifier } from "./keys";
 
-export const KEYS = [
-	"`",
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"Q",
-	"E",
-	"R",
-	"T",
-	"Y",
-	"F",
-	"G",
-	"H",
-	"Z",
-	"X",
-	"C",
-	"V",
-	"B",
-] as const;
-export type Key = (typeof KEYS)[number];
+export { KEYS, type Key, MODIFIERS, type Modifier, PAGED_KEYS } from "./keys";
 
-/** Number-row keys: the only keys the action bars page by stance. */
-export const PAGED_KEYS: readonly Key[] = ["1", "2", "3", "4", "5", "6"];
-
-const ALT_KEYS: readonly Key[] = ["R"];
 const PREFIXES = [
 	"Atk",
 	"CD",
