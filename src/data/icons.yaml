@@ -1,0 +1,83 @@
+# Ability name -> Wowhead icon name. Files live in public/icons/<name>.jpg.
+# `bun run icons` looks up any ability missing here on Wowhead (Classic first,
+# then Retail for spells Classic doesn't have), adds it, and downloads the file.
+# A binding's own `icon` overrides this map (warlock Mount).
+
+# Hand-picked stand-ins: slots, macros and Forever-only spells with no Wowhead match.
+Boots: inv_boots_plate_06
+Gloves: inv_gauntlets_29
+Cloak: inv_misc_cape_18
+Trinket 1: inv_jewelry_talisman_07
+Trinket 2: inv_jewelry_talisman_08
+Mount: ability_mount_whitetiger
+Interrupt: ability_warrior_shieldbash
+Elune's Light: spell_holy_elunesgrace
+Pet Attack: ability_ghoulfrenzy
+Pet Follow: ability_tracking
+Pet Stay: spell_nature_timestop
+Protection Potion: inv_potion_23
+LIP / Greater Stoneshield: inv_potion_69
+Curse (CoE / CoR / CoS): spell_shadow_chilltouch
+Demonic / Dark Rune: inv_misc_rune_04
+
+# Looked up by `bun run icons`.
+Searing Pain: spell_fire_soulburn
+Shadow Bolt: spell_shadow_shadowbolt
+Corruption: spell_shadow_abominationexplosion
+Rain of Fire: spell_shadow_rainoffire
+Hellfire: spell_fire_incinerate
+Conflagrate: spell_fire_fireball
+Life Tap: spell_shadow_burningspirit
+Healing Potion: inv_potion_51
+Healthstone: inv_stone_04
+Immolate: spell_fire_immolation
+Shadowburn: spell_shadow_scourgebuild
+Amplify Curse: spell_shadow_contagion
+Demon Armor: spell_shadow_ragingscream
+Spell Lock: spell_shadow_mindrot
+Banish: spell_shadow_cripple
+Major Mana Potion: inv_potion_76
+Howl of Terror: spell_shadow_deathscream
+Fear: spell_shadow_possession
+Death Coil: spell_shadow_deathcoil
+Shadow Ward: spell_shadow_antishadow
+Dark Pact: spell_shadow_darkritual
+Free Action Potion: inv_potion_04
+Swiftness Potion: inv_potion_95
+Revenge: ability_warrior_revenge
+Overpower: ability_meleedamage
+Victory Rush: ability_warrior_devastate
+Shield Block: ability_defend
+Slam: ability_warrior_decisivestrike
+Sunder Armor: ability_warrior_sunder
+Thunder Clap: spell_nature_thunderclap
+Whirlwind: ability_whirlwind
+Shield Slam: inv_shield_05
+Mocking Blow: ability_warrior_punishingblow
+Heroic Strike: ability_rogue_ambush
+Cleave: ability_warrior_cleave
+Execute: inv_sword_48
+Berserker Stance: ability_racial_avatar
+Defensive Stance: ability_warrior_defensivestance
+Battle Stance: ability_warrior_offensivestance
+Sweeping Strikes: ability_rogue_slicedice
+Death Wish: spell_shadow_deathpact
+Battle Shout: ability_warrior_battleshout
+Commanding Shout: ability_warrior_rallyingcry
+Taunt: spell_nature_reincarnation
+Challenging Shout: ability_bullrush
+Charge: ability_warrior_charge
+Intercept: ability_rogue_sprint
+Hamstring: ability_shockwave
+Rage Potion: inv_potion_24
+Concussion Blow: ability_thunderbolt
+Intimidating Shout: ability_golemthunderclap
+Disarm: ability_warrior_disarm
+Shadowmeld: ability_ambush
+Demoralizing Shout: ability_warrior_warcry
+Last Stand: spell_holy_ashestoashes
+Shield Wall: ability_warrior_shieldwall
+Retaliation: ability_warrior_challange
+Recklessness: ability_criticalstrike
+Bloodrage: ability_racial_bloodrage
+Berserker Rage: spell_nature_ancestralguardian
