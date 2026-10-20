@@ -291,6 +291,7 @@
 		cursor: pointer;
 	}
 	.char b {
+		position: relative;
 		font: 300 var(--t-h3) / 1 var(--f-display);
 		font-stretch: 112.5%;
 	}
@@ -300,13 +301,15 @@
 	.char[aria-pressed="true"] {
 		color: var(--n-8);
 	}
+	/* Out of flow, so moving the dot never shifts a name. */
 	.char[aria-pressed="true"] b::after {
 		content: "";
-		display: inline-block;
+		position: absolute;
+		top: 50%;
+		left: calc(100% + 8px);
 		width: 6px;
 		height: 6px;
-		margin-left: 8px;
-		vertical-align: middle;
+		translate: 0 -50%;
 		background: var(--n-8);
 		border-radius: 50%;
 	}
