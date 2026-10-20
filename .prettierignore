@@ -1,0 +1,5 @@
+# Prettier only handles .astro and .svelte files
+# Everything else is handled by Biome
+*
+!**/*.astro
+!**/*.svelte

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"enabled": true
+	},
+	"files": {
+		"includes": [
+			"**",
+			"!dist",
+			"!.astro",
+			"!node_modules",
+			"!**/*.astro",
+			"!**/*.svelte",
+			"!.claude"
+		]
+	}
+}
