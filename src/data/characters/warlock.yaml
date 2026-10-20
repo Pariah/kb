@@ -1,0 +1,64 @@
+# Warlock keymap. Same grammar as the warrior (see warrior.yaml for the format).
+# No stances, so every key is static. keybinds.md maps no warlock keys to macros.
+
+name: Warlock
+class: warlock
+role: alt
+
+keys:
+  "1":
+    bare: { ability: Searing Pain }
+  "2":
+    bare: { ability: Shadow Bolt }
+  "3":
+    bare: { ability: Corruption }
+    shift: { ability: Boots }
+  "4":
+    bare: { ability: Rain of Fire }
+    shift: { ability: Gloves }
+    ctrl: { ability: Hellfire }
+  "5":
+    bare: { ability: Conflagrate }
+    shift: { ability: Cloak }
+  Q:
+    bare: { ability: Life Tap, locked: true }
+    shift: { ability: Healing Potion }
+    ctrl: { ability: Healthstone }
+  E:
+    bare: { ability: Immolate }
+  R:
+    bare: { ability: Shadowburn }
+    shift: { ability: Pet Follow }
+    ctrl: { ability: Pet Stay }
+    alt: { ability: Pet Attack, note: "Lines up with the warrior's Alt+R stance key." }
+  T:
+    bare: { ability: Amplify Curse }
+  Y:
+    bare: { ability: Demon Armor }
+  F:
+    bare: { ability: Spell Lock, note: "Felhunter. Shift+F and Ctrl+F stay empty: no taunt." }
+  G:
+    bare: { ability: Banish }
+  H:
+    bare: { ability: Mount, icon: spell_nature_swiftness }
+  Z:
+    bare: { ability: Trinket 1 }
+    shift: { ability: Trinket 2 }
+    ctrl: { ability: Major Mana Potion }
+  X:
+    bare: { ability: Howl of Terror }
+    shift: { ability: Fear }
+  C:
+    bare: { ability: Demonic / Dark Rune }
+    shift: { ability: Racial 1, note: "Race not recorded in keybinds.md." }
+    ctrl: { ability: Racial 2 }
+  V:
+    bare: { ability: Curse (CoE / CoR / CoS), note: "Whichever curse is assigned." }
+    shift: { ability: Death Coil }
+    ctrl: { ability: Shadow Ward }
+  B:
+    bare: { ability: Dark Pact, note: "If talented." }
+  "`":
+    bare: { ability: Protection Potion }
+    shift: { ability: Free Action Potion }
+    ctrl: { ability: Swiftness Potion }

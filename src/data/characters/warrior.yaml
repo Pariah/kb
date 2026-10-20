@@ -1,0 +1,134 @@
+# Prot Warrior keymap.
+# keys: key -> modifier (bare / shift / ctrl / alt) -> binding.
+# A missing modifier is a deliberate empty key.
+# A binding is { ability, macro?, locked?, note? }.
+#   macro: a name from macros.yaml. locked: chosen by David, ask before moving.
+#   note: editing context, never rendered.
+# stances: { <stance>: binding } makes a slot change with stance.
+#   The number row is paged by stance on the action bars; anything else using it
+#   (Ctrl+V) is a static key whose ability depends on stance.
+
+name: Prot Warrior
+class: warrior
+spec: Protection
+race: Night Elf
+role: main
+stances:
+  - id: defensive
+    label: Defensive
+  - id: battle
+    label: Battle
+  - id: berserker
+    label: Berserker
+
+keys:
+  "1":
+    bare:
+      stances:
+        defensive: { ability: Revenge, macro: "Tank: Revenge", locked: true }
+        battle: { ability: Overpower, macro: "Atk: Overpower", locked: true }
+        berserker: { ability: Victory Rush, macro: "Atk: Victory" }
+  "2":
+    bare:
+      stances:
+        defensive: { ability: Shield Block, macro: "Tank: Block" }
+        battle: { ability: Slam, macro: "Atk: Slam" }
+        berserker: { ability: Slam, macro: "Atk: Slam" }
+  "3":
+    bare:
+      stances:
+        defensive: { ability: Sunder Armor, macro: "Tank: Sunder", locked: true }
+        battle: { ability: Sunder Armor, macro: "Tank: Sunder", locked: true }
+        berserker: { ability: Sunder Armor, macro: "Tank: Sunder", locked: true }
+    shift: { ability: Boots, locked: true, note: "macros.md has Item: Belt (slot 6), not boots (slot 8)." }
+  "4":
+    bare:
+      stances:
+        defensive: { ability: Thunder Clap, macro: "Tank: Clap", locked: true }
+        battle: { ability: Thunder Clap, macro: "Tank: Clap", locked: true }
+        berserker: { ability: Whirlwind, macro: "Atk: Whirlwind", locked: true }
+    shift: { ability: Gloves, macro: "Item: Gloves", locked: true }
+  "5":
+    bare:
+      stances:
+        defensive: { ability: Shield Slam, macro: "Tank: Slam", locked: true }
+        battle: { ability: Mocking Blow, macro: "Tank: Mock", locked: true }
+    shift: { ability: Cloak, macro: "Item: Cloak", locked: true }
+  Q:
+    bare: { ability: Heroic Strike, macro: "Atk: Heroic", locked: true }
+    shift: { ability: Healing Potion, macro: "Pot: Healing", locked: true }
+    ctrl: { ability: Healthstone, macro: "Pot: Healthstone", locked: true }
+  E:
+    bare: { ability: Cleave, macro: "Atk: Cleave", locked: true }
+  R:
+    bare: { ability: Execute, macro: "Atk: Execute", locked: true }
+    shift: { ability: Berserker Stance, macro: "Form: Berserker", locked: true }
+    ctrl: { ability: Defensive Stance, macro: "Form: Defensive", locked: true }
+    alt: { ability: Battle Stance, macro: "Form: Battle", locked: true }
+  T:
+    bare:
+      ability: Sweeping Strikes
+      macro: "CD: Talent"
+      note: "CD: Talent fires Last Stand or Sweeping Strikes, whichever is known, but the layout splits them across Shift+V and T."
+    shift: { ability: Death Wish, macro: "CD: Burst" }
+  Y:
+    bare: { ability: Battle Shout, locked: true }
+    shift:
+      ability: Commanding Shout
+      locked: true
+      note: "If it exists. Not in the FojjiCore trainer data (FojjiCore_SpellRanks/SpellBase.lua); could come from a quest or a talent."
+  F:
+    bare: { ability: Interrupt, macro: "Util: Interrupt", locked: true }
+    shift: { ability: Taunt, macro: "Tank: Taunt", locked: true }
+    ctrl: { ability: Challenging Shout }
+  G:
+    bare:
+      ability: Charge
+      macro: "Util: Charge"
+      locked: true
+      note: "Util: Charge already switches between Charge and Intercept, but the layout splits them across G and Shift+G."
+    shift: { ability: Intercept, locked: true }
+    ctrl: { ability: Hamstring, macro: "Atk: Hamstring" }
+  H:
+    bare: { ability: Mount, locked: true }
+  Z:
+    bare:
+      ability: Trinket 1
+      macro: "Item: Trinkets"
+      locked: true
+      note: "Item: Trinkets fires both trinkets at once, but the layout gives each trinket its own key."
+    shift: { ability: Trinket 2, locked: true }
+    ctrl: { ability: Rage Potion, macro: "Pot: Rage" }
+  X:
+    bare: { ability: Concussion Blow, macro: "Tank: Concuss", locked: true, note: "Piercing Howl in the Fury offspec." }
+    shift: { ability: Intimidating Shout, locked: true }
+    ctrl: { ability: Disarm, macro: "Tank: Disarm" }
+  C:
+    shift:
+      ability: Elune's Light
+      macro: "Race: Alliance 1"
+      locked: true
+      note: "Racial 1. Night Elf's second racial is unknown; Race: Alliance 1 gates on Elune's Light."
+    ctrl:
+      ability: Shadowmeld
+      macro: "Race: Alliance 2"
+      locked: true
+      note: "Racial 2. Race: Alliance 2 gates on Shadowmeld."
+  V:
+    bare: { ability: Demoralizing Shout, macro: "Tank: Demo", locked: true }
+    shift: { ability: Last Stand, locked: true }
+    ctrl:
+      stances:
+        defensive: { ability: Shield Wall, locked: true }
+        battle: { ability: Retaliation, locked: true }
+        berserker: { ability: Recklessness, locked: true }
+      note: "Major CD by stance. No combined macro; CD: Retaliation, CD: Recklessness and Tank: Wall exist separately."
+  B:
+    bare: { ability: Bloodrage, locked: true }
+    shift: { ability: Berserker Rage, macro: "Util: Zerk Rage", locked: true }
+  "`":
+    bare:
+      ability: Protection Potion
+      note: "Whichever resistance potion the boss calls for (Fire, Shadow, Nature, Frost, Arcane), restocked per fight."
+    shift: { ability: Free Action Potion, macro: "Pot: Free Action" }
+    ctrl: { ability: LIP / Greater Stoneshield, macro: "Pot: Stoneshield" }
