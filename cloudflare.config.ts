@@ -5,7 +5,7 @@ import { defineConfig } from "cf/config";
 export default defineConfig({
 	worker: {
 		name: "kb",
-		compatibilityDate: "2026-10-12",
+		compatibilityDate: "2026-10-07",
 		domains: ["kb.xpariah.com"],
 	},
 });
