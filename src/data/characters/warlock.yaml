@@ -1,8 +1,9 @@
 # Warlock keymap. Same grammar as the warrior (see warrior.yaml for the format).
-# No stances, so every key is static. keybinds.md maps no warlock keys to macros.
+# No stances, so every key is static. No warlock keys are mapped to macros yet.
 
 name: Warlock
 class: warlock
+race: Human
 role: alt
 
 keys:
@@ -50,8 +51,8 @@ keys:
     shift: { ability: Fear }
   C:
     bare: { ability: Demonic / Dark Rune }
-    shift: { ability: Racial 1, note: "Race not recorded in keybinds.md." }
-    ctrl: { ability: Racial 2 }
+    shift: { ability: Will to Survive }
+    ctrl: { ability: Perception }
   V:
     bare: { ability: Curse (CoE / CoR / CoS), note: "Whichever curse is assigned." }
     shift: { ability: Death Coil }

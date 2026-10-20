@@ -143,7 +143,7 @@
 		{#each characters as c (c.slug)}
 			<button class="char" aria-pressed={c.slug === char.slug} onclick={() => pickCharacter(c)}>
 				<b>{c.name.toLowerCase()}</b>
-				<span class="micro">{[c.race, c.role === "main" ? "Main" : "Alt"].filter(Boolean).join(" · ")}</span>
+				<span class="micro">{[c.race, c.class].filter(Boolean).join(" ")}</span>
 			</button>
 		{/each}
 	</nav>
