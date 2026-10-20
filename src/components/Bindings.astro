@@ -1,6 +1,8 @@
 ---
-// Full bindings, one table per character. For characters with stances the
-// number row gets its own table, one column per stance.
+// Full bindings, one table set per character. Only the character picked on
+// the keyboard shows (the island toggles [data-bindings]); the first is the
+// default before it hydrates. For characters with stances the number row gets
+// its own table, one column per stance.
 import type { ResolvedCharacter, ResolvedSlot } from "../lib/data";
 import { canBind, KEYS, MODIFIER_LABEL, MODIFIERS, type Modifier, PAGED_KEYS } from "../lib/keys";
 import { isPaged, slotAt } from "../lib/view";
@@ -43,13 +45,12 @@ const ORDER = [...KEYS.filter((k) => k !== "`"), "`"];
 <section id="bindings">
 	<h2>bindings</h2>
 	{
-		characters.map((c) => {
+		characters.map((c, i) => {
 			const paged = PAGED_KEYS.filter((k) => isPaged(c, k));
 			const rest = ORDER.filter((k) => !isPaged(c, k));
 			const pagedMods = MODIFIERS.filter((m) => m !== "bare" && PAGED_KEYS.some((k) => canBind(k, m)));
 			return (
-				<div class="char">
-					<h3>{c.name.toLowerCase()}</h3>
+				<div class="char" data-bindings={c.slug} hidden={i > 0}>
 					{paged.length > 0 && (
 						<div class="tbl">
 							<table>
@@ -119,13 +120,8 @@ const ORDER = [...KEYS.filter((k) => k !== "`"), "`"];
 		gap: 20px;
 		margin-top: 32px;
 	}
-	h3 {
-		margin: 0;
-		padding-bottom: 6px;
-		border-bottom: 1px solid var(--n-3);
-		font: 300 var(--t-h3) / 1 var(--f-display);
-		font-stretch: 112.5%;
-		color: var(--n-8);
+	.char[hidden] {
+		display: none;
 	}
 	.tbl {
 		overflow-x: auto;
