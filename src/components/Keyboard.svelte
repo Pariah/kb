@@ -147,7 +147,12 @@
 	<span class="mark">kb</span>
 	<nav class="chars" aria-label="Character">
 		{#each characters as c (c.slug)}
-			<button class="char" aria-pressed={c.slug === char.slug} onclick={() => pickCharacter(c)}>
+			<button
+				class="char"
+				aria-pressed={c.slug === char.slug}
+				style:--class="var(--class-{c.class})"
+				onclick={() => pickCharacter(c)}
+			>
 				<b>{c.class}</b>
 				{#if c.race}<span class="micro">{c.race}</span>{/if}
 			</button>
@@ -310,7 +315,7 @@
 		width: 6px;
 		height: 6px;
 		translate: 0 -50%;
-		background: var(--n-8);
+		background: var(--class, var(--n-8));
 		border-radius: 50%;
 	}
 
