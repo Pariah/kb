@@ -114,10 +114,13 @@
 		return () => window.removeEventListener("hashchange", readHash);
 	});
 
-	// The static bindings tables below the board follow the picked character.
+	// The static bindings tables and class macro tabs below the board follow
+	// the picked character.
 	$effect(() => {
 		for (const el of document.querySelectorAll<HTMLElement>("[data-bindings]"))
 			el.hidden = el.dataset.bindings !== char.slug;
+		for (const el of document.querySelectorAll<HTMLElement>("[data-macro-tab]"))
+			el.hidden = el.dataset.macroTab !== char.class;
 	});
 
 	function pickCharacter(c: ResolvedCharacter) {

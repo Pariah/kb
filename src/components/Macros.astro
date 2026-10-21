@@ -1,6 +1,7 @@
 ---
 // Macro library: tab (general first, then class tabs in character order), then
-// prefix. Each card is a static MacroBox plus the keys it's bound to, if any.
+// prefix. Class tabs follow the picked character (the island toggles
+// [data-macro-tab]); general always shows. Each card is a static MacroBox plus the keys it's bound to, if any.
 import type { Macro, ResolvedCharacter } from "../lib/data";
 import { macroKeys } from "../lib/view";
 import MacroBox from "./MacroBox.svelte";
@@ -40,7 +41,7 @@ function groups(tab: string) {
 	<p class="label sub">Click a macro to copy it.</p>
 	{
 		tabs.map((tab) => (
-			<div class="tab">
+			<div class="tab" data-macro-tab={tab === "general" ? undefined : tab} hidden={tab !== "general" && tab !== characters[0]?.class}>
 				<h3 class="label">{tab}</h3>
 				<div class="lib">
 					{groups(tab).map(([prefix, list]) => (
@@ -75,6 +76,9 @@ function groups(tab: string) {
 	}
 	.tab {
 		margin-top: 40px;
+	}
+	.tab[hidden] {
+		display: none;
 	}
 	h3 {
 		margin: 0 0 4px;

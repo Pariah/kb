@@ -1,8 +1,7 @@
 ---
 // Full bindings, one table set per character. Only the character picked on
 // the keyboard shows (the island toggles [data-bindings]); the first is the
-// default before it hydrates. For characters with stances the number row gets
-// its own table, one column per stance.
+// default before it hydrates.
 import type { ResolvedCharacter, ResolvedSlot } from "../lib/data";
 import { canBind, KEYS, MODIFIER_LABEL, MODIFIERS, type Modifier, PAGED_KEYS } from "../lib/keys";
 import { isPaged, slotAt } from "../lib/view";
@@ -38,76 +37,81 @@ const stanceCell = (c: ResolvedCharacter, key: string, stance: string): Cell => 
 	return b ? { text: b.ability, job: slot?.job?.id } : { text: "Open", open: true };
 };
 
-// Number row first only when it isn't split out by stance; ` closes the table.
-const ORDER = [...KEYS.filter((k) => k !== "`"), "`"];
+// Every character splits the number row into its own table: one column per
+// stance when the bars page, else Bare. Both tables share one fixed grid
+// (padded with empty cells) so their columns line up.
+const REST = KEYS.filter((k) => !PAGED_KEYS.includes(k) && k !== "`").concat("`");
+const PAGED_MODS = MODIFIERS.filter((m) => m !== "bare" && PAGED_KEYS.some((k) => canBind(k, m)));
+
+interface Table {
+	heads: string[];
+	rows: { key: string; cells: Cell[] }[];
+}
+
+function tables(c: ResolvedCharacter): Table[] {
+	const paged = PAGED_KEYS.some((k) => isPaged(c, k));
+	const top: Table = {
+		heads: [...(paged ? c.stances.map((s) => s.label) : [MODIFIER_LABEL.bare]), ...PAGED_MODS.map((m) => MODIFIER_LABEL[m])],
+		rows: PAGED_KEYS.map((k) => ({
+			key: k,
+			cells: [
+				...(paged ? c.stances.map((s) => stanceCell(c, k, s.id)) : [modCell(c, k, "bare")]),
+				...PAGED_MODS.map((m) => modCell(c, k, m)),
+			],
+		})),
+	};
+	const rest: Table = {
+		heads: MODIFIERS.map((m) => MODIFIER_LABEL[m]),
+		rows: REST.map((k) => ({ key: k, cells: MODIFIERS.map((m) => modCell(c, k, m)) })),
+	};
+	return [top, rest];
+}
+
+const pad = <T,>(xs: T[], n: number, fill: T): T[] => [...xs, ...Array(n - xs.length).fill(fill)];
+const BLANK: Cell = { text: "", blank: true };
 ---
 
 <section id="bindings">
 	<h2>bindings</h2>
 	{
 		characters.map((c, i) => {
-			const paged = PAGED_KEYS.filter((k) => isPaged(c, k));
-			const rest = ORDER.filter((k) => !isPaged(c, k));
-			const pagedMods = MODIFIERS.filter((m) => m !== "bare" && PAGED_KEYS.some((k) => canBind(k, m)));
+			const ts = tables(c);
+			const cols = Math.max(...ts.map((t) => t.heads.length));
 			return (
 				<div class="char" data-bindings={c.slug} hidden={i > 0}>
-					{paged.length > 0 && (
+					{ts.map((t) => (
 						<div class="tbl">
-							<table>
+							<table style={`--cols: ${cols}`}>
+								<colgroup>
+									<col class="kc" />
+									{Array.from({ length: cols }, () => (
+										<col />
+									))}
+								</colgroup>
 								<thead>
 									<tr>
 										<th>Key</th>
-										{c.stances.map((s) => (
-											<th>{s.label}</th>
-										))}
-										{pagedMods.map((m) => (
-											<th>{MODIFIER_LABEL[m]}</th>
+										{pad(t.heads, cols, "").map((h) => (
+											<th>{h}</th>
 										))}
 									</tr>
 								</thead>
 								<tbody>
-									{paged.map((k) => (
+									{t.rows.map((r) => (
 										<tr>
-											<td class="k">{k}</td>
-											{[...c.stances.map((s) => stanceCell(c, k, s.id)), ...pagedMods.map((m) => modCell(c, k, m))].map(
-												(x) => (
-													<td class:list={{ open: x.open }}>
-														{!x.blank && <span class="j" style={x.job ? `--c: var(--job-${x.job})` : undefined} />}
-														{x.text}
-													</td>
-												),
-											)}
+											<td class="k">{r.key}</td>
+											{pad(r.cells, cols, BLANK).map((x) => (
+												<td class:list={{ open: x.open }}>
+													{!x.blank && <span class="j" style={x.job ? `--c: var(--job-${x.job})` : undefined} />}
+													{x.text}
+												</td>
+											))}
 										</tr>
 									))}
 								</tbody>
 							</table>
 						</div>
-					)}
-					<div class="tbl">
-						<table>
-							<thead>
-								<tr>
-									<th>Key</th>
-									{MODIFIERS.map((m) => (
-										<th>{MODIFIER_LABEL[m]}</th>
-									))}
-								</tr>
-							</thead>
-							<tbody>
-								{rest.map((k) => (
-									<tr>
-										<td class="k">{k}</td>
-										{MODIFIERS.map((m) => modCell(c, k, m)).map((x) => (
-											<td class:list={{ open: x.open }}>
-												{!x.blank && <span class="j" style={x.job ? `--c: var(--job-${x.job})` : undefined} />}
-												{x.text}
-											</td>
-										))}
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+					))}
 				</div>
 			);
 		})
@@ -128,8 +132,12 @@ const ORDER = [...KEYS.filter((k) => k !== "`"), "`"];
 	}
 	table {
 		width: 100%;
-		min-width: 560px;
+		min-width: calc(60px + var(--cols) * 150px);
+		table-layout: fixed;
 		border-collapse: collapse;
+	}
+	col.kc {
+		width: 60px;
 	}
 	th,
 	td {
@@ -137,6 +145,7 @@ const ORDER = [...KEYS.filter((k) => k !== "`"), "`"];
 		border-bottom: 1px solid var(--n-2);
 		text-align: left;
 		vertical-align: top;
+		overflow-wrap: anywhere;
 	}
 	th {
 		font: 400 var(--t-micro) / 1 var(--f-mono);
@@ -146,7 +155,6 @@ const ORDER = [...KEYS.filter((k) => k !== "`"), "`"];
 		color: var(--n-5);
 	}
 	td.k {
-		width: 60px;
 		font: 500 12px / 1.4 var(--f-mono);
 		color: var(--n-8);
 	}
